@@ -26,130 +26,131 @@ class DetailPage extends StatelessWidget {
             ),
             body: LayoutBuilder(builder: (context, constraints) {
               if (constraints.maxWidth > 600) {
-                return Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ImagePreviewDesktop(house: house),
-                          SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "\$${NumberFormat('#,##0').format(house.price)}",
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w600,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .shadow,
-                                              ),
-                                            ),
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(200),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  favoriteState
-                                                          .isFavorite(house.id)
-                                                      ? favoriteState
-                                                          .removeFavorite(
-                                                              house.id)
-                                                      : favoriteState
-                                                          .addFavorite(
-                                                              house.id);
-                                                },
-                                                child: Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  child: Icon(
-                                                      favoriteState.isFavorite(
-                                                              house.id)
-                                                          ? IconsaxBold.heart
-                                                          : IconsaxOutline
-                                                              .heart,
-                                                      color: favoriteState
-                                                              .isFavorite(
-                                                                  house.id)
-                                                          ? Theme.of(context)
-                                                              .colorScheme
-                                                              .error
-                                                          : Theme.of(context)
-                                                              .colorScheme
-                                                              .shadow,
-                                                      size: 24),
+                return SingleChildScrollView(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      // height: MediaQuery.of(context).size.height,
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ImagePreviewDesktop(house: house),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "\$${NumberFormat('#,##0').format(house.price)}",
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .shadow,
                                                 ),
                                               ),
-                                            )
-                                          ]),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        house.location,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .shadow
-                                                .withOpacity(0.6)),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(children: [
-                                        LargeDetailTag(
-                                            detail:
-                                                "${NumberFormat('#,##0').format(house.landSize)}m²",
-                                            icon: Icons.expand_sharp),
-                                        const SizedBox(
-                                          width: 6,
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(200),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    favoriteState.isFavorite(
+                                                            house.id)
+                                                        ? favoriteState
+                                                            .removeFavorite(
+                                                                house.id)
+                                                        : favoriteState
+                                                            .addFavorite(
+                                                                house.id);
+                                                  },
+                                                  child: Container(
+                                                    height: 40,
+                                                    width: 40,
+                                                    child: Icon(
+                                                        favoriteState
+                                                                .isFavorite(
+                                                                    house.id)
+                                                            ? IconsaxBold.heart
+                                                            : IconsaxOutline
+                                                                .heart,
+                                                        color: favoriteState
+                                                                .isFavorite(
+                                                                    house.id)
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .error
+                                                            : Theme.of(context)
+                                                                .colorScheme
+                                                                .shadow,
+                                                        size: 24),
+                                                  ),
+                                                ),
+                                              )
+                                            ]),
+                                        SizedBox(
+                                          width: 4,
                                         ),
-                                        LargeDetailTag(
-                                            detail: house.bedroom.toString(),
-                                            icon: Icons.bed_outlined),
-                                        const SizedBox(
-                                          width: 6,
+                                        Text(
+                                          house.location,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .shadow
+                                                  .withOpacity(0.6)),
                                         ),
-                                        LargeDetailTag(
-                                            detail: house.bathroom.toString(),
-                                            icon: Icons.bathtub_outlined),
-                                      ])
-                                    ],
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(children: [
+                                          LargeDetailTag(
+                                              detail:
+                                                  "${NumberFormat('#,##0').format(house.landSize)}m²",
+                                              icon: Icons.expand_sharp),
+                                          const SizedBox(
+                                            width: 6,
+                                          ),
+                                          LargeDetailTag(
+                                              detail: house.bedroom.toString(),
+                                              icon: Icons.bed_outlined),
+                                          const SizedBox(
+                                            width: 6,
+                                          ),
+                                          LargeDetailTag(
+                                              detail: house.bathroom.toString(),
+                                              icon: Icons.bathtub_outlined),
+                                        ])
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 16),
-                                Text("Description",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .shadow)),
-                                const SizedBox(height: 8),
-                                Expanded(
-                                  child: Text(
+                                  const SizedBox(height: 16),
+                                  Text("Description",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .shadow)),
+                                  const SizedBox(height: 8),
+                                  Text(
                                     house.description,
                                     style: TextStyle(
                                         fontSize: 14,
@@ -159,11 +160,14 @@ class DetailPage extends StatelessWidget {
                                             .shadow),
                                     softWrap: true,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    width: 100,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ]));
+                          ])),
+                );
               } else {
                 return SingleChildScrollView(
                     padding:
@@ -366,7 +370,7 @@ class _ImagePreviewDesktopState extends State<ImagePreviewDesktop> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
+      height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width / 3,
       child: Column(children: [
         ClipRRect(
@@ -375,7 +379,6 @@ class _ImagePreviewDesktopState extends State<ImagePreviewDesktop> {
             widget.house.imageUrls[choosenImageIndex],
             width: double.infinity,
             fit: BoxFit.cover,
-            height: 400,
           ),
         ),
         SizedBox(

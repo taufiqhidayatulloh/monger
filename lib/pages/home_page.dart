@@ -59,20 +59,27 @@ class HomePage extends StatelessWidget {
                 ),
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4, // Number of columns
+                    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 300,
+                      // crossAxisCount: 3, // Number of columns
+                      childAspectRatio: 1,
                       crossAxisSpacing: 8.0, // Horizontal spacing between items
                       mainAxisSpacing: 8.0, // Vertical spacing between items
                     ),
                     itemCount: housesList.length,
                     itemBuilder: (context, index) {
                       final House house = housesList[index];
-                      return GestureDetector(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/detail',
+                                arguments: house);
+                          },
                           child: Container(
+                            constraints: const BoxConstraints(minHeight: 300),
                             padding: const EdgeInsets.all(8),
-                            // height: 275,
+                            height: 700,
                             decoration: BoxDecoration(
                               color:
                                   Theme.of(context).colorScheme.inversePrimary,
@@ -86,75 +93,91 @@ class HomePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // mainAxisSize: MainAxisSize.min,
                               children: [
                                 Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: Stack(children: [
-                                      Image.network(
-                                        house.imageUrls[0],
-                                        fit: BoxFit.cover,
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                      ),
-                                      Container(
-                                          height: double.infinity,
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.all(8),
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    favoriteState.isFavorite(
-                                                            house.id)
-                                                        ? favoriteState
-                                                            .removeFavorite(
-                                                                house.id)
-                                                        : favoriteState
-                                                            .addFavorite(
-                                                                house.id);
-                                                  },
-                                                  child: Container(
-                                                    height: 40,
-                                                    width: 40,
-                                                    decoration: BoxDecoration(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .inversePrimary,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(200)),
-                                                    child: Icon(
-                                                        favoriteState
-                                                                .isFavorite(
-                                                                    house.id)
-                                                            ? IconsaxBold.heart
-                                                            : IconsaxOutline
-                                                                .heart,
-                                                        color: favoriteState
-                                                                .isFavorite(
-                                                                    house.id)
-                                                            ? Theme.of(context)
-                                                                .colorScheme
-                                                                .error
-                                                            : Theme.of(context)
-                                                                .colorScheme
-                                                                .shadow,
-                                                        size: 20),
+                                  child: Container(
+                                    constraints: BoxConstraints(minHeight: 80),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: Stack(children: [
+                                        Container(
+                                          constraints:
+                                              BoxConstraints(minHeight: 80),
+                                          child: Image.network(
+                                            house.imageUrls[0],
+                                            fit: BoxFit.cover,
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                          ),
+                                        ),
+                                        Container(
+                                            constraints:
+                                                BoxConstraints(minHeight: 80),
+                                            height: double.infinity,
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.all(8),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      favoriteState.isFavorite(
+                                                              house.id)
+                                                          ? favoriteState
+                                                              .removeFavorite(
+                                                                  house.id)
+                                                          : favoriteState
+                                                              .addFavorite(
+                                                                  house.id);
+                                                    },
+                                                    child: Container(
+                                                      height: 40,
+                                                      width: 40,
+                                                      decoration: BoxDecoration(
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .colorScheme
+                                                              .inversePrimary,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      200)),
+                                                      child: Icon(
+                                                          favoriteState
+                                                                  .isFavorite(
+                                                                      house.id)
+                                                              ? IconsaxBold
+                                                                  .heart
+                                                              : IconsaxOutline
+                                                                  .heart,
+                                                          color: favoriteState
+                                                                  .isFavorite(
+                                                                      house.id)
+                                                              ? Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .error
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .colorScheme
+                                                                  .shadow,
+                                                          size: 20),
+                                                    ),
                                                   ),
-                                                ),
-                                              ])),
-                                    ]),
+                                                ])),
+                                      ]),
+                                    ),
                                   ),
                                 ),
                                 Column(
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     const SizedBox(
                                       height: 8,
@@ -187,34 +210,33 @@ class HomePage extends StatelessWidget {
                                     const SizedBox(
                                       height: 8,
                                     ),
-                                    Row(children: [
-                                      DetailTag(
+                                    Wrap(
+                                      spacing:
+                                          8.0, // Horizontal spacing between items
+                                      runSpacing:
+                                          8.0, // Vertical spacing between rows
+                                      children: [
+                                        DetailTag(
                                           detail:
                                               "${NumberFormat('#,##0').format(house.landSize)}m²",
-                                          icon: Icons.expand_sharp),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      DetailTag(
+                                          icon: Icons.expand_sharp,
+                                        ),
+                                        DetailTag(
                                           detail: house.bedroom.toString(),
-                                          icon: Icons.bed_outlined),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      DetailTag(
+                                          icon: Icons.bed_outlined,
+                                        ),
+                                        DetailTag(
                                           detail: house.bathroom.toString(),
-                                          icon: Icons.bathtub_outlined),
-                                    ])
+                                          icon: Icons.bathtub_outlined,
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 )
                               ],
                             ),
                           ),
                         ),
-                        onTap: () {
-                          Navigator.pushNamed(context, '/detail',
-                              arguments: house);
-                        },
                       );
                     },
                   ),
@@ -454,6 +476,7 @@ class DetailTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(200),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon,
               color: Theme.of(context).colorScheme.shadow.withOpacity(0.6),
